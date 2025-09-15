@@ -280,11 +280,8 @@
   background-repeat: no-repeat;
 
   /* Trick: Create two background layers */
-  background-image:
-    linear-gradient(white,lightgray),  /* actual background */
-    lightgray;                  /* border gradient */
 
-  border: 1px solid gray;
+  border: 1px solid #dee2e6;
     padding-left: 3px; 
   padding-right: 1px;
   padding-top: 1px; 
@@ -303,11 +300,11 @@
   background-repeat: no-repeat;
 
   /* Trick: Create two background layers */
-  background-image:
-    linear-gradient(white,lightgray),  /* actual background */
-    var(--c-gradient-fan-passport-progress);                  /* border gradient */
+  # background-image:
+  #   linear-gradient(white,lightgray),  /* actual background */
+  #   var(--c-gradient-fan-passport-progress);                  /* border gradient */
 
-  border: 3px solid transparent;
+  border: 1px solid transparent;
   padding-left: 3px; 
   padding-right: 3px;
   padding-top: 1px; 
@@ -361,7 +358,11 @@
 
     .wartende-player {
         background: #f5f2f5;
-        border: 1px solid teal;
+        border: 1px solid transparent;
+        padding-left: 5px; 
+        padding-right: 5px;
+        margin-top: 2px;
+        box-shadow: inset 0 0 0 1000px transparent;
     }
 
 
@@ -418,26 +419,22 @@
 }
 
 .player-image-wrapper {
-  margin-left: 8px;
   display:block;
 }
 
 .great-player-image {
   width: 40px;
   background-color: transparent;
-  border-radius: 4px;
 }
 
 .good-player-image {
   width: 40px;
   background-color: transparent;
-  border-radius: 4px;
 }
 
 .ok-player-image {
   width: 40px;
   background-color: transparent;
-  border-radius: 4px;
 }
 
 
@@ -551,22 +548,63 @@ input:checked + .slider::before {
 }
 
 .GK_ROW {
-    background: rgb(229, 250, 236);
+    background: #fff;
 }
 .DF_ROW {
-    background: rgb(229, 250, 236);
+    background: #fff;
 }
 .MF_ROW {
-    background: rgb(229, 250, 236);
+    background: #fff;
 }
 .FW_ROW {
-    background: rgb(229, 250, 236);
+    background: #fff;
 }
 
 .bg-colorful {
         background-image: var(--c-gradient-fan-passport-progress-tp);
         width:100%
 }
+
+.shiny {
+  position: relative;
+  display: inline-block;    /* consistent baseline */
+  vertical-align: top;   /* keeps siblings aligned */
+  overflow: hidden;         /* if you want clipping */
+  line-height: inherit;     /* match siblings’ height */
+  isolation: isolate;       /* isolates z-index painting */
+}
+
+.shiny::before {
+  content: "";
+  position: absolute;
+  /* Overscan: extend beyond all edges so skew never clips */
+  inset: -35%;
+  /* Diagonal beam */
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.55) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: translateX(-120%) skewX(-20deg);
+  animation: shine 5s infinite;
+  pointer-events: none;
+  border-radius: inherit;    /* follow the card’s corners */
+  will-change: transform;
+  z-index: 0;
+}
+
+@keyframes shine {
+  0%   { transform: translateX(-120%) skewX(-20deg); }
+  10%  { transform: translateX(120%)  skewX(-20deg); } /* quick pass */
+  100% { transform: translateX(120%)  skewX(-20deg); } /* rest off-screen */
+}
+
+
+
+
+
+
 
 
   </style>
@@ -575,8 +613,12 @@ input:checked + .slider::before {
 
     <div class="bg-colorful">
         <div class="container text-teal">
+        <a href="/fpldraft/index.html" class="text-decoration-none text-reset">
+
             <h1 class="text-success"> Fantasy Addicts Results</h1>
-            <span class="text-secondary fw-light"> Last Updated: 2025-09-06 <sup>(Tehran)</sup> <sup>(Tehran)</sup></span>
+        </a>
+
+            <span class="text-secondary fw-light"> Last Updated: 2025-09-15 <sup>(Tehran)</sup> </span>
         </div>
     </div>
 
@@ -606,7 +648,7 @@ input:checked + .slider::before {
 
 
     <label class="switch">
-        <input type="checkbox" id="toggleDetails" data-city="Ulsan">
+        <input type="checkbox" id="toggleDetails" data-city="Ulsan" checked>
         <span class="slider round"></span>
         <span class="toggle-label" id="toggleText">Details</span>
     </label>
@@ -622,9 +664,9 @@ input:checked + .slider::before {
     <div class="row">
     
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid #DEAF37'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #DEAF37;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #DEAF3785,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">1</span>
                     </span>
 
@@ -668,6 +710,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/154561.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -684,6 +728,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/226597.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -698,6 +744,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/462424.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -712,6 +760,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/432830.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -726,6 +776,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/78916.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -733,7 +785,7 @@ input:checked + .slider::before {
                         <div class="detailedmaps-Ulsan" style="border: 0px solid red; text-align: center;">
                         <span class="MF_ROW py-0 my-0" style="border: 0px solid red; display:block; text-align: center;">
                         
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Gakpo</span>
                 <span class="player-score">10</span>
@@ -742,6 +794,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/243298.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -756,6 +810,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/592031.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -770,6 +826,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/466525.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -784,6 +842,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/486672.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -791,7 +851,7 @@ input:checked + .slider::before {
                         <div class="detailedmaps-Ulsan" style="border: 0px solid red; text-align: center;">
                         <span class="FW_ROW pt-0 pb-2 my-0" style="border: 0px solid red; display:block; text-align: center;">
                         
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Gyökeres</span>
                 <span class="player-score">12</span>
@@ -800,6 +860,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/224117.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -814,6 +876,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/75115.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -821,8 +885,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -837,13 +900,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/109745.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -858,13 +922,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/444145.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -875,11 +940,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/499309.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -894,18 +960,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/211975.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid #BCC6CC'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #BCC6CC;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #BCC6CC85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">2</span>
                     </span>
 
@@ -949,6 +1017,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/85633.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -965,6 +1035,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/441191.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -979,6 +1051,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/17761.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -993,6 +1067,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/119471.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1000,7 +1076,7 @@ input:checked + .slider::before {
                         <div class="detailedmaps-Ulsan" style="border: 0px solid red; text-align: center;">
                         <span class="MF_ROW py-0 my-0" style="border: 0px solid red; display:block; text-align: center;">
                         
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Tavernier</span>
                 <span class="player-score">11</span>
@@ -1009,6 +1085,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/201658.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -1023,6 +1101,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/460842.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1037,6 +1117,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/232185.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1051,6 +1133,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/535818.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1065,6 +1149,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/111317.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1072,7 +1158,7 @@ input:checked + .slider::before {
                         <div class="detailedmaps-Ulsan" style="border: 0px solid red; text-align: center;">
                         <span class="FW_ROW pt-0 pb-2 my-0" style="border: 0px solid red; display:block; text-align: center;">
                         
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">João Pedro</span>
                 <span class="player-score">15</span>
@@ -1081,6 +1167,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/475168.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -1095,6 +1183,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/485711.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1102,8 +1192,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player good-player player-card mt-1">
             <span class="player-info">
@@ -1114,11 +1203,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/67089.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -1129,11 +1219,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/77794.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player good-player player-card mt-1">
             <span class="player-info">
@@ -1144,11 +1235,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/221632.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -1163,18 +1255,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/449988.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid #CE8946'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #CE8946;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #CE894685,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">3</span>
                     </span>
 
@@ -1218,6 +1312,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/457569.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1234,6 +1330,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/83299.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1248,6 +1346,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/180736.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1262,6 +1362,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/58621.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1276,6 +1378,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/54469.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1290,6 +1394,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/477717.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1306,6 +1412,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/244850.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1320,6 +1428,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/153133.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1334,6 +1444,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/204480.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1350,6 +1462,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/223094.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1364,6 +1478,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/435973.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1371,8 +1487,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -1383,11 +1498,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/498016.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -1398,11 +1514,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/482973.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player good-player player-card mt-1">
             <span class="player-info">
@@ -1413,11 +1530,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/242898.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -1432,18 +1550,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/232413.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">4</span>
                     </span>
 
@@ -1487,6 +1607,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/184254.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1503,12 +1625,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/499169.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
         
 
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">J.Timber</span>
                 <span class="player-score">24</span>
@@ -1517,6 +1641,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/445122.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -1531,6 +1657,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/209365.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1545,6 +1673,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/106760.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1561,6 +1691,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/209244.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1575,6 +1707,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/430871.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1589,6 +1723,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/165809.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1605,6 +1741,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/463034.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1619,6 +1757,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/502500.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1633,6 +1773,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/486385.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1640,8 +1782,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -1652,11 +1793,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/467189.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -1671,15 +1813,16 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/244851.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Hudson-Odoi</span>
                 <span class="player-score">10</span>
@@ -1688,11 +1831,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/209046.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -1707,18 +1851,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/487053.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">5</span>
                     </span>
 
@@ -1753,7 +1899,7 @@ input:checked + .slider::before {
                         <div class="detailedmaps-Ulsan" style="border: 0px solid red; text-align: center;">
                         <span class="GK_ROW py-0 my-0" style="border: 0px solid red; display:block; text-align: center;">
                         
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Pickford</span>
                 <span class="player-score">15</span>
@@ -1762,6 +1908,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/111234.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -1778,6 +1926,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/441164.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1792,6 +1942,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/215136.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1806,6 +1958,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/199796.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1822,6 +1976,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/141746.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1836,6 +1992,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/247632.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1850,6 +2008,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/440993.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1864,6 +2024,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/215379.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1878,6 +2040,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/481655.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1894,6 +2058,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/60689.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1908,6 +2074,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/564406.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -1915,8 +2083,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -1927,11 +2094,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/432720.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player good-player player-card mt-1">
             <span class="player-info">
@@ -1942,11 +2110,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/538207.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -1961,13 +2130,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/198869.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player good-player player-card mt-1">
             <span class="player-info">
@@ -1978,16 +2148,18 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/491279.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">6</span>
                     </span>
 
@@ -2031,6 +2203,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/489639.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2047,6 +2221,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/550864.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2061,6 +2237,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/97032.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2079,6 +2257,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/465351.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
@@ -2097,6 +2277,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/549912.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2111,6 +2293,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/451340.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2129,6 +2313,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/243016.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
@@ -2145,6 +2331,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/166989.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2159,6 +2347,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/208706.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2175,6 +2365,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/510663.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2189,6 +2381,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/154566.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2196,8 +2390,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -2208,11 +2401,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/201595.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -2227,13 +2421,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/216094.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -2248,13 +2443,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/477424.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -2269,18 +2465,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/205651.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">7</span>
                     </span>
 
@@ -2324,6 +2522,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/116535.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2340,6 +2540,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/544877.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2354,6 +2556,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/204716.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2368,6 +2572,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/512462.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2382,6 +2588,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/106611.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2398,6 +2606,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/223340.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2412,6 +2622,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/449434.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2426,6 +2638,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/463936.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2440,6 +2654,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/230376.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2454,6 +2670,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/219249.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2470,6 +2688,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/247412.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2477,8 +2697,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player good-player player-card mt-1">
             <span class="player-info">
@@ -2489,11 +2708,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/200720.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -2504,11 +2724,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/431639.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -2519,11 +2740,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/477064.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -2534,16 +2756,18 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/174594.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">8</span>
                     </span>
 
@@ -2587,6 +2811,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/149065.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2603,6 +2829,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/227444.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2617,6 +2845,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/171314.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2631,6 +2861,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/613804.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2645,6 +2877,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/487676.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2661,6 +2895,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/446008.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2675,12 +2911,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/201666.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
         
 
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Grealish</span>
                 <span class="player-score">11</span>
@@ -2689,6 +2927,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/114283.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -2703,6 +2943,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/433036.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2719,6 +2961,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/231747.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2733,6 +2977,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/50175.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2740,8 +2986,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -2752,11 +2997,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/80201.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player good-player player-card mt-1">
             <span class="player-info">
@@ -2767,11 +3013,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/232859.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -2786,13 +3033,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/458249.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -2807,18 +3055,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/511499.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">9</span>
                     </span>
 
@@ -2862,6 +3112,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/98980.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2878,6 +3130,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/448514.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2892,6 +3146,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/465730.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2906,6 +3162,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/487838.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2922,6 +3180,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/232826.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2936,12 +3196,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/184029.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
         
 
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Enzo</span>
                 <span class="player-score">10</span>
@@ -2950,6 +3212,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/448047.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -2964,6 +3228,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/153682.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2978,6 +3244,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/456512.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -2994,6 +3262,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/178301.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3008,6 +3278,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/212319.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3015,8 +3287,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -3027,11 +3298,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/451302.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3046,13 +3318,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/577016.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3067,13 +3340,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/224967.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3088,18 +3362,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/517052.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">10</span>
                     </span>
 
@@ -3143,6 +3419,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/172649.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3159,6 +3437,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/247348.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3173,6 +3453,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/437499.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3187,6 +3469,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/209036.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3201,6 +3485,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/244723.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3215,6 +3501,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/427623.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3231,6 +3519,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/118748.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3245,6 +3535,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/466052.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3259,6 +3551,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/433312.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3275,6 +3569,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/102057.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3289,6 +3585,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/437505.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3296,8 +3594,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3312,13 +3609,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/121709.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3333,13 +3631,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/216646.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -3350,13 +3649,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/485337.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">O.Dango</span>
                 <span class="player-score">13</span>
@@ -3365,16 +3665,18 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/533463.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">11</span>
                     </span>
 
@@ -3418,6 +3720,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/215059.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3434,6 +3738,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/179268.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3448,6 +3754,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/225796.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3462,6 +3770,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/596777.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3476,6 +3786,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/494521.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3492,6 +3804,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/494595.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3506,6 +3820,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/222531.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3520,6 +3836,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/180974.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3536,6 +3854,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/91889.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3550,6 +3870,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/235826.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3564,6 +3886,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/244042.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3571,8 +3895,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3587,13 +3910,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/508479.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3608,13 +3932,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/463067.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -3625,11 +3950,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/482442.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -3640,16 +3966,18 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/243526.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">12</span>
                     </span>
 
@@ -3693,6 +4021,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/98747.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3709,6 +4039,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/575476.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3723,6 +4055,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/159506.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3737,6 +4071,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/101188.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3751,6 +4087,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/149484.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3767,6 +4105,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/437730.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3781,6 +4121,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/493250.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3795,6 +4137,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/204646.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3809,6 +4153,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/215413.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3825,6 +4171,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/178186.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3839,6 +4187,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/444102.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -3846,8 +4196,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3862,13 +4211,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/202641.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -3879,11 +4229,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/586309.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player player-card mt-1">
             <span class="player-info">
@@ -3894,11 +4245,12 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/424876.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -3913,18 +4265,20 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/199798.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
-            <div class="col-md-4 row d-flex justify-content-between" style='border: 3px solid gray'>                
-               <div class="col-md-12 p-1 text-start d-flex align-items-stretch">
-                    <span class="d-flex align-items-center justify-content-center px-1 bg-white rounded">
+            <div class="col-md-4 row d-flex justify-content-between" style='border: 1px solid #ffdfea;'>                
+               <div class="col-md-12 p-1 text-start d-flex align-items-stretch" style="background-image: linear-gradient(to bottom, #ffdfea85,white);">
+                    <span class="d-flex align-items-center justify-content-center px-1 rounded">
                         <span class="h6 mb-0 text-secondary fw-light">13</span>
                     </span>
 
@@ -3972,6 +4326,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/121160.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
@@ -3990,12 +4346,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/97299.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
         
 
-        <span class="fertig-player great-player player-card mt-1">
+        <span class="fertig-player great-player shiny player-card mt-1">
             <span class="player-info">
                 <span class="player-name">Calafiori</span>
                 <span class="player-score">13</span>
@@ -4004,6 +4362,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/466075.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="great-player-image">
             </span>
         </span>
@@ -4018,6 +4378,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/126184.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -4034,6 +4396,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/438234.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -4048,6 +4412,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/222683.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -4066,6 +4432,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/172780.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
@@ -4082,6 +4450,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/513418.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -4096,6 +4466,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/248857.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image">
             </span>
         </span>
@@ -4116,6 +4488,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/219168.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
@@ -4136,6 +4510,8 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/219847.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
@@ -4145,8 +4521,7 @@ input:checked + .slider::before {
                 </div>
                 
                     <div class="detailedmaps-Ulsan BENCH_ROW pb-1" style="border: 0px solid red; text-align: center;">
-<span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -4161,13 +4536,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/88248.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -4182,13 +4558,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/497894.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -4203,13 +4580,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/122798.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span><span class="BENCH_ROW_ITEM py-0 my-0" style="border: 0px solid red; display:inline-block; text-align: center;">
-                        
+        
 
         <span class="fertig-player ok-player player-card mt-1">
             <span class="player-info">
@@ -4224,12 +4602,14 @@ input:checked + .slider::before {
             <span class="player-image-wrapper">
                 <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/578153.png" 
                     alt="Player Image" 
+                    onerror="this.onerror=null;this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png';"
+
                     class="ok-player-image"
                     style="filter: grayscale(100%);">
 
             </span>
         </span>
-        </span></div>
+        </div>
             </div>
             
 
